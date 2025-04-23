@@ -8,11 +8,11 @@ use DB;
 
 class TrainingController extends Controller
 {
-    /** page */ 
+    /** page */
     public function index()
     {
         $trainings = DB::table('trainings')
-            ->join('users', 'users.user_id','trainings.trainer_id')
+            ->join('users', 'users.user_id', 'trainings.trainer_id')
             ->select('trainings.*', 'users.avatar', 'users.user_id')
             ->get();
 
