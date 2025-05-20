@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Training;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TrainingController extends Controller
 {
@@ -42,7 +43,7 @@ class TrainingController extends Controller
             flash()->success('Created new Training successfully :)');
             return redirect()->back();
         } catch (\Exception $e) {
-            \Log::error($e); // Log the error for debugging
+            Log::error($e); // Log the error for debugging
             DB::rollback();
             flash()->error('Failed to add Training :)');
             return redirect()->back();
@@ -59,7 +60,7 @@ class TrainingController extends Controller
             flash()->success('Training deleted successfully :)');
             return redirect()->back();
         } catch (\Exception $e) {
-            \Log::error($e); // Log the error for debugging
+            Log::error($e); // Log the error for debugging
             flash()->error('ailed to delete Training :)');
             return redirect()->back();
         }
@@ -88,7 +89,7 @@ class TrainingController extends Controller
             flash()->success('Updated Training successfully :)');
             return redirect()->back();
         } catch (\Exception $e) {
-            \Log::error($e); // Log the error for debugging
+            Log::error($e); // Log the error for debugging
             DB::rollback();
             flash()->error('Failed to update Training :)');
             return redirect()->back();

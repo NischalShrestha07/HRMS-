@@ -6,7 +6,7 @@ use App\Models\EstimatesAdd;
 use Illuminate\Http\Request;
 use App\Models\Estimates;
 use App\Models\Expense;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {

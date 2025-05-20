@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Trainer;
-use Session;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TrainersController extends Controller
 {
@@ -14,11 +12,11 @@ class TrainersController extends Controller
     public function index()
     {
         $trainers = DB::table('trainers')
-                    ->join('users', 'users.user_id', '=', 'trainers.trainer_id')
-                    ->select('trainers.*', 'users.avatar','users.user_id')
-                    ->get();
+            ->join('users', 'users.user_id', '=', 'trainers.trainer_id')
+            ->select('trainers.*', 'users.avatar', 'users.user_id')
+            ->get();
         $user = DB::table('users')->get();
-        return view('trainers.trainers',compact('user','trainers'));
+        return view('trainers.trainers', compact('user', 'trainers'));
     }
 
     /** Save Record */
@@ -44,11 +42,11 @@ class TrainersController extends Controller
             $trainer->status       = $request->status;
             $trainer->description  = $request->description;
             $trainer->save();
-            
+
             DB::commit();
             flash()->success('Create new Trainers successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Add Trainers fail :)');
             return redirect()->back();
@@ -56,12 +54,11 @@ class TrainersController extends Controller
     }
 
     /** Update Record */
-    public function updateRecord(Request $request) 
+    public function updateRecord(Request $request)
     {
         DB::beginTransaction();
         try {
-            if(!empty($request->trainer_id))
-            {
+            if (!empty($request->trainer_id)) {
                 $update = [
                     'id'            => $request->id,
                     'full_name'     => $request->full_name,
@@ -83,12 +80,12 @@ class TrainersController extends Controller
                     'description'   => $request->description,
                 ];
             }
-           
-            Trainer::where('id',$request->id)->update($update);
+
+            Trainer::where('id', $request->id)->update($update);
             DB::commit();
             flash()->success('Updated Trainer successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Update Trainer fail :)');
             return redirect()->back();
@@ -102,7 +99,7 @@ class TrainersController extends Controller
             Trainer::destroy($request->id);
             flash()->success('Trainers deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Trainers delete fail :)');
             return redirect()->back();

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrainingType;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TrainingTypeController extends Controller
 {
     /** Index page for training types */
-    public function index() 
+    public function index()
     {
         $trainingTypes = TrainingType::all(); // Using Eloquent model
         return view('trainingtype.trainingtype', compact('trainingTypes'));
@@ -43,7 +43,7 @@ class TrainingTypeController extends Controller
     }
 
     /** Update a training type record */
-    public function updateRecord(Request $request) 
+    public function updateRecord(Request $request)
     {
         $request->validate([
             'id'          => 'required|integer|exists:training_types,id',

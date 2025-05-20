@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\RolesPermissions;
 use App\Models\CompanySettings;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SettingController extends Controller
 {
     /** Company Settings Page */
     public function companySettings()
     {
-        $companySettings = CompanySettings::where('id',1)->first();
-        return view('settings.companysettings',compact('companySettings'));
+        $companySettings = CompanySettings::where('id', 1)->first();
+        return view('settings.companysettings', compact('companySettings'));
     }
 
     /** Save Record Company Settings */
@@ -21,22 +22,22 @@ class SettingController extends Controller
     {
         // validate form
         $request->validate([
-            'company_name'   =>'required',
-            'contact_person' =>'required',
-            'address'        =>'required',
-            'country'        =>'required',
-            'city'           =>'required',
-            'state_province' =>'required',
-            'postal_code'    =>'required',
-            'email'          =>'required',
-            'phone_number'   =>'required',
-            'mobile_number'  =>'required',
-            'fax'            =>'required',
-            'website_url'    =>'required',
+            'company_name'   => 'required',
+            'contact_person' => 'required',
+            'address'        => 'required',
+            'country'        => 'required',
+            'city'           => 'required',
+            'state_province' => 'required',
+            'postal_code'    => 'required',
+            'email'          => 'required',
+            'phone_number'   => 'required',
+            'mobile_number'  => 'required',
+            'fax'            => 'required',
+            'website_url'    => 'required',
         ]);
 
         try {
-            
+
             // save or update to databases CompanySettings table
             $saveRecord = CompanySettings::updateOrCreate(['id' => $request->id]);
             $saveRecord->company_name   = $request->company_name;
@@ -52,23 +53,23 @@ class SettingController extends Controller
             $saveRecord->fax            = $request->fax;
             $saveRecord->website_url    = $request->website_url;
             $saveRecord->save();
-            
+
             DB::commit();
             flash()->success('Save CompanySettings successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
-            \Log::info($e);
+        } catch (\Exception $e) {
+            Log::info($e);
             DB::rollback();
             flash()->error('Save CompanySettings fail :)');
             return redirect()->back();
         }
     }
-    
+
     /** Roles & Permissions  */
     public function rolesPermissions()
     {
         $rolesPermissions = RolesPermissions::All();
-        return view('settings.rolespermissions',compact('rolesPermissions'));
+        return view('settings.rolespermissions', compact('rolesPermissions'));
     }
 
     /** Add Role Permissions */
@@ -77,7 +78,7 @@ class SettingController extends Controller
         $request->validate([
             'roleName' => 'required|string|max:255',
         ]);
-        
+
         DB::beginTransaction();
         try {
             $roles = RolesPermissions::where('permissions_name', '=', $request->roleName)->first();
@@ -96,7 +97,7 @@ class SettingController extends Controller
             DB::commit();
             flash()->success('Create new role successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Logout successfully :)');
             return redirect()->back();
@@ -107,20 +108,20 @@ class SettingController extends Controller
     public function editRolesPermissions(Request $request)
     {
         DB::beginTransaction();
-        try{
+        try {
             $id        = $request->id;
             $roleName  = $request->roleName;
-            
+
             $update = [
                 'id'               => $id,
                 'permissions_name' => $roleName,
             ];
 
-            RolesPermissions::where('id',$id)->update($update);
+            RolesPermissions::where('id', $id)->update($update);
             DB::commit();
             flash()->success('Role Name updated successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Role Name update fail :)');
             return redirect()->back();
@@ -134,7 +135,7 @@ class SettingController extends Controller
             RolesPermissions::destroy($request->id);
             flash()->success('Role Name deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Role Name delete fail :)');
             return redirect()->back();

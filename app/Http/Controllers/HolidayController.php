@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Holiday;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HolidayController extends Controller
 {
@@ -14,7 +15,7 @@ class HolidayController extends Controller
         $holidays = Holiday::all();
         return view('employees.holidays', compact('holidays'));
     }
-    
+
     /** Save Record */
     public function saveRecord(Request $request)
     {
@@ -22,14 +23,14 @@ class HolidayController extends Controller
             'nameHoliday' => 'required|string|max:255',
             'holidayDate' => 'required',
         ]);
-        
+
         DB::beginTransaction();
         try {
             Holiday::create([
                 'name_holiday' => $request->nameHoliday,
                 'date_holiday' => $request->holidayDate,
             ]);
-            
+
             DB::commit();
             flash()->success('Created new holiday successfully :)');
             return redirect()->back();
@@ -39,7 +40,7 @@ class HolidayController extends Controller
             return redirect()->back();
         }
     }
-    
+
     /** Update Record */
     public function updateRecord(Request $request)
     {
@@ -55,7 +56,7 @@ class HolidayController extends Controller
                 'name_holiday' => $request->holidayName,
                 'date_holiday' => $request->holidayDate,
             ]);
-            
+
             DB::commit();
             flash()->success('Holiday updated successfully :)');
             return redirect()->back();
@@ -76,7 +77,7 @@ class HolidayController extends Controller
             flash()->success('Holiday deleted successfully :)');
             return redirect()->back();
         } catch (\Exception $e) {
-            \Log::error($e); // Log the error for debugging
+            Log::error($e); // Log the error for debugging
             flash()->error('Failed to delete Holiday :)');
             return redirect()->back();
         }
