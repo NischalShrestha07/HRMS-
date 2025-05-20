@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateRolesPermissionsTable extends Migration
@@ -20,18 +21,19 @@ class CreateRolesPermissionsTable extends Migration
         });
 
         DB::table('roles_permissions')->insert(
-        [
-            ['permissions_name' => 'Administrator'],
-            ['permissions_name' => 'CEO'],
-            ['permissions_name' => 'Manager'],
-            ['permissions_name' => 'Team Leader'],
-            ['permissions_name' => 'Accountant'],
-            ['permissions_name' => 'Web Developer'],
-            ['permissions_name' => 'Web Designer'],
-            ['permissions_name' => 'HR'],
-            ['permissions_name' => 'UI/UX Developer'],
-            ['permissions_name' => 'SEO Analyst'],
-        ]);
+            [
+                ['permissions_name' => 'Administrator'],
+                ['permissions_name' => 'CEO'],
+                ['permissions_name' => 'Manager'],
+                ['permissions_name' => 'Team Leader'],
+                ['permissions_name' => 'Accountant'],
+                ['permissions_name' => 'Web Developer'],
+                ['permissions_name' => 'Web Designer'],
+                ['permissions_name' => 'HR'],
+                ['permissions_name' => 'UI/UX Developer'],
+                ['permissions_name' => 'SEO Analyst'],
+            ]
+        );
     }
 
     /**

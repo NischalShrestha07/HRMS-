@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePerformanceIndicatorListsTable extends Migration
@@ -20,13 +21,14 @@ class CreatePerformanceIndicatorListsTable extends Migration
         });
 
         DB::table('performance_indicator_lists')->insert(
-        [
-            ['per_name_list' => 'None'],
-            ['per_name_list' => 'Beginner'],
-            ['per_name_list' => 'Intermediate'],
-            ['per_name_list' => 'Advanced'],
-            ['per_name_list' => 'Expert / Leader'],
-        ]);
+            [
+                ['per_name_list' => 'None'],
+                ['per_name_list' => 'Beginner'],
+                ['per_name_list' => 'Intermediate'],
+                ['per_name_list' => 'Advanced'],
+                ['per_name_list' => 'Expert / Leader'],
+            ]
+        );
     }
 
     /**

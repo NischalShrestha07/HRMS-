@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\performanceIndicator;
 use App\Models\performance_appraisal;
 use Illuminate\Http\Request;
-use Session;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class PerformanceController extends Controller
 {
@@ -20,9 +20,9 @@ class PerformanceController extends Controller
         $indicator   = DB::table('performance_indicator_lists')->get();
         $departments = DB::table('departments')->get();
         $performance_indicators = DB::table('users')
-            ->join('performance_indicators','users.user_id','performance_indicators.user_id')
-            ->select('users.*','performance_indicators.*')->get(); 
-        return view('performance.performanceindicator',compact('indicator','departments','performance_indicators'));
+            ->join('performance_indicators', 'users.user_id', 'performance_indicators.user_id')
+            ->select('users.*', 'performance_indicators.*')->get();
+        return view('performance.performanceindicator', compact('indicator', 'departments', 'performance_indicators'));
     }
 
     /** Performance */
@@ -37,9 +37,9 @@ class PerformanceController extends Controller
         $users      = DB::table('users')->get();
         $indicator  = DB::table('performance_indicator_lists')->get();
         $appraisals = DB::table('users')
-                        ->join('performance_appraisals','users.user_id', 'performance_appraisals.user_id')
-                        ->select('users.*','performance_appraisals.*')->get(); 
-        return view('performance.performanceappraisal',compact('users','indicator','appraisals'));
+            ->join('performance_appraisals', 'users.user_id', 'performance_appraisals.user_id')
+            ->select('users.*', 'performance_appraisals.*')->get();
+        return view('performance.performanceappraisal', compact('users', 'indicator', 'appraisals'));
     }
 
     /** Save Record */
@@ -58,15 +58,15 @@ class PerformanceController extends Controller
             'professionalism'    => 'required|string|max:255',
             'team_work'          => 'required|string|max:255',
             'critical_thinking'  => 'required|string|max:255',
-            'conflict_management'=> 'required|string|max:255',
+            'conflict_management' => 'required|string|max:255',
             'attendance'         => 'required|string|max:255',
-            'ability_to_meet_deadline'=> 'required|string|max:255',
+            'ability_to_meet_deadline' => 'required|string|max:255',
             'status'             => 'required|string|max:255',
         ]);
 
         DB::beginTransaction();
         try {
-            
+
             $indicator = new performanceIndicator;
             $indicator->user_id            = $request->user_id;
             $indicator->designation        = $request->designation;
@@ -81,7 +81,7 @@ class PerformanceController extends Controller
             $indicator->professionalism    = $request->professionalism;
             $indicator->team_work          = $request->team_work;
             $indicator->critical_thinking  = $request->critical_thinking;
-            $indicator->conflict_management= $request->attendance;
+            $indicator->conflict_management = $request->attendance;
             $indicator->attendance         = $request->attendance;
             $indicator->ability_to_meet_deadline = $request->ability_to_meet_deadline;
             $indicator->status             = $request->status;
@@ -90,7 +90,7 @@ class PerformanceController extends Controller
             DB::commit();
             flash()->success('Create new performance indicator successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Add performance indicator fail :)');
             return redirect()->back();
@@ -120,13 +120,13 @@ class PerformanceController extends Controller
                 'conflict_management'       => $request->conflict_management,
                 'attendance'                => $request->attendance,
                 'ability_to_meet_deadline'  => $request->ability_to_meet_deadline,
-                'status'                    => $request->status,               
+                'status'                    => $request->status,
             ];
-            performanceIndicator::where('id',$request->id)->update($update);
+            performanceIndicator::where('id', $request->id)->update($update);
             DB::commit();
             flash()->success('Performance indicator deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Performance indicator fail :)');
             return redirect()->back();
@@ -140,7 +140,7 @@ class PerformanceController extends Controller
             performanceIndicator::destroy($request->id);
             flash()->success('Performance indicator deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->success('Performance indicator delete fail :)');
             return redirect()->back();
@@ -176,13 +176,13 @@ class PerformanceController extends Controller
             DB::commit();
             flash()->success('Create new performance appraisal successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Add performance appraisal fail :)');
             return redirect()->back();
         }
     }
-    
+
     /** Delete Record */
     public function deleteAppraisal(Request $request)
     {
@@ -190,7 +190,7 @@ class PerformanceController extends Controller
             performance_appraisal::destroy($request->id);
             flash()->success('Performance Appraisal deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Performance Appraisal delete fail :)');
             return redirect()->back();
@@ -219,13 +219,13 @@ class PerformanceController extends Controller
                 'conflict_management'       => $request->conflict_management,
                 'attendance'                => $request->attendance,
                 'ability_to_meet_deadline'  => $request->ability_to_meet_deadline,
-                'status'                    => $request->status,               
+                'status'                    => $request->status,
             ];
-            performance_appraisal::where('id',$request->id)->update($update);
+            performance_appraisal::where('id', $request->id)->update($update);
             DB::commit();
             flash()->success('Performance Appraisal deleted successfully :)');
             return redirect()->back();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             flash()->error('Performance Appraisal fail :)');
             return redirect()->back();

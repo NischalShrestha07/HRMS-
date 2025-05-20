@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use PDF;
-use DB;
 
 class HomeController extends Controller
 {
@@ -25,19 +24,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    
+
     /** Main Dashboard */
     public function index()
     {
         return view('dashboard.dashboard');
     }
-    
+
     /** Employee Dashboard */
     public function emDashboard()
     {
         $dt        = Carbon::now();
         $todayDate = $dt->toDayDateTimeString();
-        return view('dashboard.emdashboard',compact('todayDate'));
+        return view('dashboard.emdashboard', compact('todayDate'));
     }
 
     /** Generate PDF */
