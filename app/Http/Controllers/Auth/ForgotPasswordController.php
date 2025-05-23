@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Mail;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ForgotPasswordController extends Controller
 {
@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
         ]);
 
         // Send the reset email
-        Mail::send('auth.verify', ['token' => $token], function($message) use ($request) {
+        Mail::send('auth.verify', ['token' => $token], function ($message) use ($request) {
             $message->from(config('mail.from.address'), config('mail.from.name'));
             $message->to($request->email)->subject('Reset Password Notification');
         });

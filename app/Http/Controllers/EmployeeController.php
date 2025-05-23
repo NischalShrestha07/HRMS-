@@ -23,6 +23,7 @@ class EmployeeController extends Controller
         return view('employees.allemployeecard', compact('users', 'userList', 'permission_lists'));
     }
 
+
     /** All Employee List */
     public function listAllEmployee()
     {
